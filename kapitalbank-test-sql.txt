@@ -1,0 +1,65 @@
+1.	IInvoices issued after their due date. Return all attributes.
+
+ 	SELECT invoice.amount, invoice.due, invoice.issued, invoice.order_id
+	FROM invoice, payment where invoice.due < payment.timestamp
+
+
+2.	Invoices that were issued before the date in which the order they refer to was placed. Return the ID of the invoice, the date it was issued, the ID of the order associated with it and the date the order was placed.
+
+ 	select invoice.id, invoice.due, invoice.issued, invoice.order_id
+	FROM invoice, payment where invoice.due > payment.timestamp
+
+
+
+3.	Orders that do not have a detail and were placed before 6 September 2016. Return all attributes.
+
+ 	select * from orders left join order_details on orders.id = order_details.order_id 
+	where order_details.id is null and order_date < '6-9-2016'
+
+
+
+4.	Customers who have not placed any orders in 2016. Return all attributes.
+
+        select customer_id from orders where NOT (date_part('year', order_date) = 2016)
+
+
+
+5.	ID and name of customers and the date of their last order. For customers who did not place any orders, no rows must be returned. For each customer who placed more than one order on the date of their most recent order, only one row must be returned.
+
+	 select customer_id, name, order_date from customers left join orders on customers.id = orders.customer_id 
+     	 left join order_details on orders.id = order_details.order_id where quantity > 1
+
+
+6.	Invoices that have been overpaid. Observe that there may be more than one payment referring to the same invoice. Return the invoice number and the amount that should be reimbursed.
+
+	 select invoice_id, payment.amount - invoice.amount from payment 
+	 left join invoice on payment.invoice_id = invoice.id 
+
+
+
+7.	Products that were ordered more than 10 times in total, by taking into account the quantities in which they appear in the order details. Return the product code and the total number of times it was ordered.
+
+ 	select sum(quantity), description from order_details left join products on order_details.product_id = products.id group by product_id, description
+	having sum(quantity) > 10
+
+
+8.	Products that are usually ordered in bulk: whenever one of these products is ordered, it is ordered in a quantity that on average is equal to or greater than 8. For each such product, return product code and price.
+
+	 select price, description, avg(quantity) from products left join order_details on products.id = order_details.product_id 
+	 group by price, description having avg(quantity) >= 8)
+
+
+9.	Total number of orders placed in 2016 by customers of each country. If all customers from a specific country did not place any orders in 2016, the country will not appear in the output.
+
+ 	select sum(quantity) from order_details left join orders on order_details.order_id = orders.id
+	left join customers on orders.customer_id = customers.id  group by country, order_date
+	having date_part('year', order_date) = 2016 
+
+
+10.	For each order without invoice, list its ID, the date it was placed and the total price of the products in its detail, taking into account the quantity of each ordered product and its unit price. Orders without detail must not be included in the answers.
+
+	 select order_details.order_id, order_date, sum(price) from orders
+	 left join order_details on order_details.order_id = orders.id 
+	 left join products on order_details.product_id = products.id 
+	 left join invoice on orders.id = invoice.order_id
+	 group by invoice.id, order_details.order_id, order_date having invoice.id is null
