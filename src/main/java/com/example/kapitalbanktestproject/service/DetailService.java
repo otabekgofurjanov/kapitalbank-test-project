@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -28,6 +29,20 @@ public class DetailService {
         Detail detail = detailMapper.toEntity(detailDTO);
         detail = detailRepository.save(detail);
         return detailMapper.toDto(detail);
+    }
+
+    public Detail save(Detail detail) {
+        return detailRepository.save(detail);
+    }
+
+    @Transactional(readOnly = true)
+    public List<DetailDTO> findAllByOrderId(Long orderId) {
+        List<DetailDTO> detailDTOList = detailRepository.findAllByOrderId(orderId).stream().map(detail -> {
+            DetailDTO detailDTO = detailMapper.toDto(detail);
+            detailDTO.setProductName(detail.getProduct().getName());
+            return detailDTO;
+        }).collect(Collectors.toList());
+        return detailDTOList;
     }
 
     public DetailDTO update(DetailDTO detailDTO) {

@@ -1,7 +1,6 @@
 package com.example.kapitalbanktestproject.service;
 
 import com.example.kapitalbanktestproject.domain.Payment;
-import com.example.kapitalbanktestproject.model.MakePayment;
 import com.example.kapitalbanktestproject.repository.PaymentRepository;
 import com.example.kapitalbanktestproject.service.dto.PaymentDTO;
 import com.example.kapitalbanktestproject.service.mapper.PaymentMapper;

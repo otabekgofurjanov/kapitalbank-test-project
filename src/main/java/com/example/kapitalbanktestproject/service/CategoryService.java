@@ -1,6 +1,7 @@
 package com.example.kapitalbanktestproject.service;
 
 import com.example.kapitalbanktestproject.domain.Category;
+import com.example.kapitalbanktestproject.domain.Product;
 import com.example.kapitalbanktestproject.repository.CategoryRepository;
 import com.example.kapitalbanktestproject.service.dto.CategoryDTO;
 import com.example.kapitalbanktestproject.service.mapper.CategoryMapper;
@@ -18,10 +19,15 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
+    private final ProductService productService;
 
-    public CategoryService(CategoryRepository categoryRepository, CategoryMapper categoryMapper) {
+
+    public CategoryService(CategoryRepository categoryRepository,
+                           CategoryMapper categoryMapper,
+                           ProductService productService) {
         this.categoryRepository = categoryRepository;
         this.categoryMapper = categoryMapper;
+        this.productService = productService;
     }
 
     public CategoryDTO create(CategoryDTO categoryDTO) {
@@ -36,6 +42,15 @@ public class CategoryService {
         category.setName(category.getName());
         category = categoryRepository.save(category);
         return categoryMapper.toDto(category);
+    }
+
+    public CategoryDTO findProductCategoryByProduct(Long productId) {
+        CategoryDTO categoryDTO = null;
+        Product product = productService.getById(productId);
+        if (product != null) {
+            categoryDTO = categoryMapper.toDto(product.getCategory());
+        }
+        return categoryDTO;
     }
 
     @Transactional(readOnly = true)

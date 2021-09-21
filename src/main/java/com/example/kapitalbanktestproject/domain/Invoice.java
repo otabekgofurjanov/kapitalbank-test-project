@@ -17,7 +17,7 @@ public class Invoice implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "ammount", nullable = false)
+    @Column(name = "amount", nullable = false)
     private Double amount;
 
     @NotNull
@@ -27,6 +27,10 @@ public class Invoice implements Serializable {
     @NotNull
     @Column(name = "due", nullable = false)
     private Date due;
+
+    @NotNull
+    @Column(name = "status")
+    private String status;
 
     @OneToOne
     private Order order;
@@ -69,5 +73,13 @@ public class Invoice implements Serializable {
 
     public void setDue(Date due) {
         this.due = due;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

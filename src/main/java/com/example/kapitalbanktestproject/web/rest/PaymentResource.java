@@ -1,6 +1,5 @@
 package com.example.kapitalbanktestproject.web.rest;
 
-import com.example.kapitalbanktestproject.model.MakePayment;
 import com.example.kapitalbanktestproject.service.PaymentService;
 import com.example.kapitalbanktestproject.service.dto.PaymentDTO;
 import org.springframework.data.domain.Page;

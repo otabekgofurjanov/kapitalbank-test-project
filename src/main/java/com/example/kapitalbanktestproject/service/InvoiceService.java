@@ -32,17 +32,17 @@ public class InvoiceService {
 
     public InvoiceDTO update(InvoiceDTO invoiceDTO) {
         Invoice invoice = invoiceMapper.toEntity(invoiceDTO);
-        invoice = invoiceRepository.findByIdInvoiceId(invoice.getId());
+        invoice = invoiceRepository.findByInvoiceId(invoice.getId());
         invoiceRepository.save(invoice);
         return invoiceMapper.toDto(invoice);
     }
 
-    public Invoice save(Invoice invoice) {
-        return invoiceRepository.save(invoice);
+    public Invoice findInvoiceByOrderAndStatus(Long orderId, String status) {
+        return invoiceRepository.findByOrderIdAndStatus(orderId, status);
     }
 
-    public Long getInvNumByOrderId(Long orderId) {
-        return invoiceRepository.getInvNumByOrderId(orderId);
+    public Invoice save(Invoice invoice) {
+        return invoiceRepository.save(invoice);
     }
 
     @Transactional(readOnly = true)

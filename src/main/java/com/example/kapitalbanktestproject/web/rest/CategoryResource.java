@@ -37,10 +37,16 @@ public class CategoryResource {
         return ResponseEntity.ok().body(page.getContent());
     }
 
-    @GetMapping("/categories/list")
+    @GetMapping("/category/list")
     public ResponseEntity<List<CategoryDTO>> findAllList() {
         List<CategoryDTO> categoryDTOList = categoryService.findAllList();
         return ResponseEntity.ok().body(categoryDTOList);
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<CategoryDTO> findProductCategoryByProduct(@RequestParam Long product_id) {
+        CategoryDTO categoryDTO = categoryService.findProductCategoryByProduct(product_id);
+        return ResponseEntity.ok().body(categoryDTO);
     }
 
     @GetMapping("/categories/{id}")

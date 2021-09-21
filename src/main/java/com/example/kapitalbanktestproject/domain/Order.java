@@ -20,6 +20,10 @@ public class Order implements Serializable {
     @Column(name = "date")
     private Date date;
 
+    @NotNull
+    @Column(name = "status")
+    private String status;
+
     @ManyToOne
     private Customer customer;
 
@@ -37,6 +41,14 @@ public class Order implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Customer getCustomer() {

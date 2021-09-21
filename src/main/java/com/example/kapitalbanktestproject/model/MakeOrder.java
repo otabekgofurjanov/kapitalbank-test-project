@@ -1,9 +1,13 @@
 package com.example.kapitalbanktestproject.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class MakeOrder {
 
+    @JsonProperty("customer_id")
     private Long customerId;
 
+    @JsonProperty("product_id")
     private Long productId;
 
     private int quantity;

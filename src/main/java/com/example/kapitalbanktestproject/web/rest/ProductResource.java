@@ -43,9 +43,9 @@ public class ProductResource {
         return ResponseEntity.ok().body(productDTOList);
     }
 
-    @GetMapping("/products/{id}")
-    public ResponseEntity<ProductDTO> findOne(@PathVariable Long id) {
-        Optional<ProductDTO> productDTO = productService.findOne(id);
+    @GetMapping("/product/details")
+    public ResponseEntity<ProductDTO> findProductDetailsById(@RequestParam Long product_id) {
+        Optional<ProductDTO> productDTO = productService.findOne(product_id);
         return ResponseEntity.ok().body(productDTO.get());
     }
 
